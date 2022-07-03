@@ -30,6 +30,8 @@ module.exports = {
         config.api.url = process.env.BASE_URL_API || config.api.url;
         config.web.url = process.env.BASE_URL_WEB || config.web.url;
 
+        config.mysql.password = process.env.DATABASE_PWD;
+
         config.authtication = {
           // secrectKey: require('crypto').randomBytes(64).toString('hex'),
           secrectKey: process.env.SECRECTKEY,
