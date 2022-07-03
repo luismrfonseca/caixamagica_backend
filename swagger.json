@@ -9,7 +9,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "https://caixamagica-backend.herokuapp.com/api",
+  "host": "caixamagica-backend.herokuapp.com/api",
   "basePath": "/",
   "tags": [
     {
