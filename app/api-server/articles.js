@@ -104,9 +104,7 @@ router.get('/dates/:dateBegin/:dateEnd', (req, res, next) => {
   }
   
   return ArticlesService.getAllArticlesBetweenDates(dateBegin, dateEnd)
-    .then((data) => {
-      return res.json(data);
-    })
+    .then((data) => res.json(data))
     .catch(error => {
       loggerManager.getLogger().error(`[Articles][GetAllBetweenDates] ${error.message || error}`);
 
@@ -157,11 +155,11 @@ router.get('/author/:authorId', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-  if (R.isEmpty(req.body)) {
+  if (R.isEmpty(req.body) || req.body.length<=0 || R.isEmpty(req.body[0])) {
     return res.status(500).json({ status: 500, message: 'Invalid body payload' });
   }
 
-  const newArticle = req.body;
+  const newArticle = req.body[0];
 
   return ArticlesService.createArticle(newArticle)
     .then((data) => res.json(data))
@@ -177,12 +175,12 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:articleId', (req, res, next) => {
-  if (R.isEmpty(req.body)) {
+  if (R.isEmpty(req.body) || req.body.length<=0 || R.isEmpty(req.body[0])) {
     return res.status(500).json({ status: 500, message: 'Invalid body payload' });
   }
 
   const articleId = req.params.articleId;
-  const updateArticle = req.body;
+  const updateArticle = req.body[0];
 
   return ArticlesService.getArticlesById(articleId)
     .then(([ article ]) => {

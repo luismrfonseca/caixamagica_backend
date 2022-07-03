@@ -1,0 +1,463 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Caixa Mágica - Articles",
+    "description": "",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3200/api",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Articles",
+      "description": "API for get all articles"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/articles/": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get all articles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Articles"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Articles"
+        ],
+        "consumes": "application/json",
+        "summary": "Create an article",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create new Article",
+            "required": true,
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/CreateArticle"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/{articleId}": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get article by Id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "articleId",
+            "default": 1,
+            "type": "integer",
+            "description": "Article Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "i18n_key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Update an article",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "articleId",
+            "default": 1,
+            "type": "integer",
+            "description": "Article Id"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Update Article",
+            "required": true,
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/UpdateArticle"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Article"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "i18n_key": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/pagination": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get all articles with pagination (5 elements per page)",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "default": 1,
+            "type": "integer",
+            "description": "The number of page"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "default": 5,
+            "type": "integer",
+            "description": "The number of articles to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ArticlesPagination"
+            }
+          }
+        }
+      }
+    },
+    "/articles/dates/{dateBegin}/{dateEnd}": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get all articles created between two dates",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dateBegin",
+            "default": "2018-05-09 00:00",
+            "type": "string",
+            "description": "Start date"
+          },
+          {
+            "in": "path",
+            "name": "dateEnd",
+            "default": "2018-05-09 23:59",
+            "type": "string",
+            "description": "End date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Articles"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "i18n_key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/title/{searchTitle}": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get all articles search results, searching by title",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "searchTitle",
+            "default": "hello",
+            "type": "string",
+            "description": "Text for searching by Title"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Articles"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "i18n_key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/articles/author/{authorId}": {
+      "get": {
+        "tags": [
+          "Articles"
+        ],
+        "summary": "Get all articles from an author by author id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "authorId",
+            "default": "2",
+            "type": "string",
+            "description": "Author Id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Articles"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "i18n_key": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Article": {
+      "required": [
+        "title",
+        "intro",
+        "content",
+        "author_id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true
+        },
+        "title": {
+          "type": "string"
+        },
+        "intro": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "author_id": {
+          "type": "integer"
+        },
+        "dates": {
+          "type": "object",
+          "properties": {
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Articles": {
+      "type": "array",
+      "$ref": "#/definitions/Article"
+    },
+    "ArticlesPagination": {
+      "type": "object",
+      "properties": {
+        "articles": {
+          "type": "array",
+          "$ref": "#/definitions/Article"
+        },
+        "next": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        }
+      }
+    },
+    "CreateArticle": {
+      "required": [
+        "title",
+        "intro",
+        "content",
+        "author_id"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "NodeJS for Industry"
+        },
+        "intro": {
+          "type": "string",
+          "example": "New intro"
+        },
+        "content": {
+          "type": "string",
+          "example": ""
+        },
+        "author_id": {
+          "type": "integer",
+          "example": 2
+        }
+      }
+    },
+    "UpdateArticle": {
+      "required": [
+        "title",
+        "intro",
+        "content",
+        "author_id"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "Update Article"
+        },
+        "intro": {
+          "type": "string",
+          "example": "New intro"
+        }
+      }
+    }
+  }
+}

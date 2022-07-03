@@ -8,6 +8,8 @@ const path = require('path');
 const NotFoundError = require('../errors/notFoundError');
 const parseDatabaseError = require('../helpers/parseDatabaseError');
 const fileUpload = require('express-fileupload');
+const swaggerUi = require('swagger-ui-express');
+swaggerDocument = require('../../swagger.json');
 require('dotenv').config();
 
 const corsOptions = {
@@ -63,6 +65,12 @@ apiServer.initialize = async (configuration) => {
   });
 
   apiServer.use('/api/articles', require('./articles'));
+
+  apiServer.use(
+    '/docs',
+    swaggerUi.serve, 
+    swaggerUi.setup(swaggerDocument)
+  );
 
   apiServer.use(function (req, res, next) {
     next();
