@@ -1,5 +1,6 @@
 /* eslint-disable promise/no-callback-in-promise */
 const R = require('ramda');
+const app = require('../app');
 const loggerManager = require('../managers/logger.manager');
 const router = require('express').Router();
 const ArticlesService = require('../services/articles');
@@ -40,7 +41,7 @@ router.get('/pagination', pagination, (req, res, next) => {
 
       return res.json({
         articles: response,
-        next: limit > 0 && missingItems > 0 ? nextPage : undefined,
+        next: limit > 0 && missingItems > 0 ? app.config.api.url + nextPage : undefined,
         count,
       });
     })
