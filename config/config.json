@@ -1,7 +1,7 @@
 { 
   "apiId": "API01",
   "mysql": {
-    "host": "34.67.109.96",
+    "host": "34.136.18.188",
     "port": 3306,
     "user": "database001_u",
     "database": "database001"
